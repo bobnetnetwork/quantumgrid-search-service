@@ -1,0 +1,76 @@
+spring:
+    application:
+        name: Search Service
+    lifecycle:
+        timeout-per-shutdown-phase: 30s
+    main:
+        banner-mode: off
+        lazy-initialization: true
+    servlet:
+        multipart:
+            max-file-size: 31MB
+            max-request-size: 31MB
+    elasticsearch:
+        uris: ${ELASTIC_HOST:http://localhost:9200}
+        username: ${ELASTIC_USERNAME:elastic}
+        password: ${ELASTIC_PASSWORD:changeme}
+
+server:
+    port: 8080
+    shutdown: graceful
+    servlet:
+        encoding:
+            charset: UTF-8
+            enabled: true
+            force: true
+
+management:
+    health:
+        livenessstate:
+            enabled: true
+        readinessstate:
+            enabled: true
+    endpoints:
+        web:
+            exposure:
+                include: health,info,metrics,prometheus,httptrace,swagger-ui,openapi,shutdown,threaddump
+        jmx:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+            show-details: always
+            enabled: true
+            group:
+                custom:
+                    show-components: always
+                    show-details: always
+        metrics:
+            enabled: true
+        mappings:
+            enabled: true
+        shutdown:
+            enabled: true
+        prometheus:
+            enabled: true
+    server:
+        port: 8081
+    info:
+        java:
+            enabled: true
+        git:
+            mode: full
+            enabled: true
+        build:
+            enabled: true
+        env:
+            enabled: true
+        os:
+            enabled: true
+        defaults:
+            enabled: true
+
+springdoc:
+    show-actuator: false
+    use-management-port: true
+    pathsToMatch: /api/**, /authenticate, /register
